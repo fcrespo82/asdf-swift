@@ -7,3 +7,5 @@ os:
   - linux
   - osx
 sudo: required
+language: generic
+dist: trusty
