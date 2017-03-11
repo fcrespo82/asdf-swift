@@ -6,3 +6,4 @@ before_script:
 os:
   - linux
   - osx
+sudo: required
