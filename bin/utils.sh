@@ -1,19 +1,53 @@
-ensure_swift_build_installed() {
-  if [ ! -f "$(swift_build_path)" ]; then
-    download_swift_build
+ensure_swiftenv_installed() {
+  if [ ! -f "$(swiftenv_path)" ]; then
+    download_swiftenv
   fi
 }
 
-download_swift_build() {
-  echo "Downloading swift-build..."
+download_swiftenv() {
+  echo "Downloading swiftenv..."
   local swiftenv_url="https://github.com/kylef/swiftenv.git"
-  git clone $swiftenv_url "$(swiftenv_path)"
-}
-
-swift_build_path() {
-  echo "$(swiftenv_path)/plugins/swift-build/bin/swift-build"
+  git clone $swiftenv_url "$(swiftenv_dir)"
 }
 
 swiftenv_path() {
+  echo "$(dirname $(dirname $0))/swiftenv/bin/swiftenv"
+}
+
+swiftenv_dir() {
   echo "$(dirname $(dirname $0))/swiftenv"
+}
+
+ninja_path() {
+  echo "$(dirname $(dirname $0))/ninja/ninja"
+}
+
+ninja_dir() {
+  echo "$(dirname $(dirname $0))/ninja"
+}
+
+ensure_ninja_installed() {
+  if [ ! -f "$(ninja_path)" ]; then
+    download_ninja
+  fi
+}
+
+download_ninja() {
+  local tmp_dir="$(mktemp -d -t asdf-swift-ninja.XXX)"
+  echo "Downloading ninja..."
+  if [ "$(uname)" == "Darwin" ]; then
+    if [ -f "$(which brew)" ]; then
+      brew install cmake ninja
+    elif  [ -f "$(which port)" ]; then
+      sudo port install cmake ninja
+    fi
+  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    if [ -f "$(which pacman)" ]; then
+      pacman -S perl libbsd icu git libedit python2 clang cmake ninja
+    elif  [ -f "$(which apt-get)" ]; then
+      sudo apt-get install git cmake ninja-build clang python uuid-dev libicu-dev icu-devtools libbsd-dev libedit-dev libxml2-dev libsqlite3-dev swig libpython-dev libncurses5-dev pkg-config
+    fi    
+  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    local ninja_url="https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip"
+  fi
 }

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+source $(dirname $0)/utils.sh
+
+install_swift() {
+  local version="$1"
+  local install_path="$2"
+
+  local tmp_dir="$(mktemp -d -t asdf-swift.XXX)"
+
+  ensure_swiftenv_installed
+  ensure_ninja_installed
+
+  ASDF_CONCURRENCY="${ASDF_CONCURRENCY:-1}"
+  echo "swiftenv install $version $install_path"
+  MAKE_OPTS="$MAKE_OPTS -j$ASDF_CONCURRENCY" TMP_DIR="$tmp_dir" SWIFTENV_ROOT="$install_path" $(swiftenv_path) install $version
+  echo "Cleaning up"
+  rm -rf "$tmp_dir"
+}
+
+install_swift $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
