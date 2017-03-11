@@ -28,6 +28,7 @@ ninja_dir() {
 
 ensure_ninja_installed() {
   if [ ! -f "$(ninja_path)" ]; then
+    ensure_swiftenv_installed
     download_ninja
   fi
 }
