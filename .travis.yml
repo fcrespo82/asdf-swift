@@ -1,5 +1,5 @@
 language: c
-script: asdf plugin-test swift https://github.com/fcrespo82/asdf-swift.git 'swift --version'
+script: asdf plugin-test swift https://github.com/fcrespo82/asdf-swift.git 'asdf install swift 2.2'
 before_script:
   - git clone https://github.com/asdf-vm/asdf.git asdf
   - . asdf/asdf.sh
