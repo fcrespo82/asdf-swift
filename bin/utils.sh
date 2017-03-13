@@ -44,7 +44,7 @@ download_ninja() {
     fi
   elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     if [ -f "$(which pacman)" ]; then
-      pacman -S perl libbsd icu git libedit python2 clang cmake ninja
+      sudo pacman -S perl libbsd icu git libedit python2 clang cmake ninja
     elif  [ -f "$(which apt-get)" ]; then
       sudo apt-get install git cmake ninja-build clang python uuid-dev libicu-dev icu-devtools libbsd-dev libedit-dev libxml2-dev libsqlite3-dev swig libpython-dev libncurses5-dev pkg-config
     fi    
