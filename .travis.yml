@@ -9,3 +9,4 @@ os:
 sudo: required
 language: generic
 dist: trusty
+osx_image: xcode10.3
